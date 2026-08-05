@@ -7,7 +7,9 @@ if (year) {
 }
 
 if (toggle && nav) {
-  const setMenuState = (open) => {
+  const firstLink = nav.querySelector("a");
+
+  const setMenuState = (open, moveFocus = false) => {
     nav.classList.toggle("nav-open", open);
     document.body.classList.toggle("menu-open", open);
     toggle.setAttribute("aria-expanded", String(open));
@@ -15,10 +17,19 @@ if (toggle && nav) {
       "aria-label",
       open ? "Close navigation menu" : "Open navigation menu"
     );
+
+    if (moveFocus) {
+      if (open && firstLink) {
+        firstLink.focus();
+      } else if (!open) {
+        toggle.focus();
+      }
+    }
   };
 
   toggle.addEventListener("click", () => {
-    setMenuState(toggle.getAttribute("aria-expanded") !== "true");
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    setMenuState(open, open);
   });
 
   nav.addEventListener("click", (event) => {
@@ -28,9 +39,8 @@ if (toggle && nav) {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      setMenuState(false);
-      toggle.focus();
+    if (event.key === "Escape" && nav.classList.contains("nav-open")) {
+      setMenuState(false, true);
     }
   });
 
