@@ -605,3 +605,28 @@ section { padding: clamp(88px, 12vw, 160px) var(--edge); scroll-margin-top: 90px
     transition: none;
   }
 }
+
+
+/* Definitive mobile navigation positioning fix */
+@media (max-width: 640px) {
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+  }
+
+  .main-nav {
+    top: var(--mobile-header-height, 120px) !important;
+    height: calc(100dvh - var(--mobile-header-height, 120px));
+    bottom: auto !important;
+    padding: 24px var(--edge) 40px !important;
+    background: #ffffff !important;
+    overflow-y: auto;
+  }
+
+  .main-nav a,
+  .main-nav .nav-cta {
+    flex: 0 0 auto;
+    min-height: 58px;
+  }
+}
